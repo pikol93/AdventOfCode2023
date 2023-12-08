@@ -1,10 +1,10 @@
 const INPUT_TEXT: &str = include_str!("../input.txt");
 
-trait FindFirstAndLast: Iterator {
+trait FindFirstAndLast: DoubleEndedIterator {
     #[inline]
     fn find_first_and_last(
         &mut self,
-    ) -> Option<(<Self as Iterator>::Item, <Self as Iterator>::Item)>
+    ) -> Option<(Self::Item, Self::Item)>
         where
             Self: Sized,
             Self::Item: Copy,
@@ -13,19 +13,15 @@ trait FindFirstAndLast: Iterator {
             return None;
         };
 
-        let mut last = first;
-        loop {
-            match self.next() {
-                None => break,
-                Some(value) => last = value,
-            }
-        }
+        let Some(last) = self.next_back() else {
+            return Some((first, first));
+        };
 
         Some((first, last))
     }
 }
 
-impl<I: Iterator> FindFirstAndLast for I {}
+impl<I: DoubleEndedIterator> FindFirstAndLast for I {}
 
 fn main() {
     process(INPUT_TEXT);
