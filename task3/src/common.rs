@@ -19,12 +19,12 @@ pub struct EngineSchematic {
     pub symbols: Vec<Symbol>,
 }
 
-struct FindPartNumbers<I: Iterator<Item=(usize, char)>> {
+struct FindPartNumbers<I: Iterator<Item = (usize, char)>> {
     iterator: I,
     line_index: usize,
 }
 
-impl<I: Iterator<Item=(usize, char)>> Iterator for FindPartNumbers<I> {
+impl<I: Iterator<Item = (usize, char)>> Iterator for FindPartNumbers<I> {
     type Item = PartNumber;
 
     #[inline]
@@ -70,9 +70,9 @@ impl<I: Iterator<Item=(usize, char)>> Iterator for FindPartNumbers<I> {
     }
 }
 
-trait FindPartNumbersTrait: Iterator<Item=(usize, char)>
-    where
-        Self: Sized,
+trait FindPartNumbersTrait: Iterator<Item = (usize, char)>
+where
+    Self: Sized,
 {
     fn find_part_numbers(self, line_index: usize) -> FindPartNumbers<Self> {
         FindPartNumbers {
@@ -82,7 +82,7 @@ trait FindPartNumbersTrait: Iterator<Item=(usize, char)>
     }
 }
 
-impl<I> FindPartNumbersTrait for I where I: Iterator<Item=(usize, char)> {}
+impl<I> FindPartNumbersTrait for I where I: Iterator<Item = (usize, char)> {}
 
 pub fn read_input(input: &str) -> EngineSchematic {
     EngineSchematic {
@@ -91,7 +91,7 @@ pub fn read_input(input: &str) -> EngineSchematic {
     }
 }
 
-fn read_part_numbers(input: &str) -> impl Iterator<Item=PartNumber> + '_ {
+fn read_part_numbers(input: &str) -> impl Iterator<Item = PartNumber> + '_ {
     input
         .split('\n')
         .enumerate()
@@ -101,17 +101,17 @@ fn read_part_numbers(input: &str) -> impl Iterator<Item=PartNumber> + '_ {
 fn read_part_numbers_from_line(
     line_index: usize,
     line: &str,
-) -> impl Iterator<Item=PartNumber> + '_ {
+) -> impl Iterator<Item = PartNumber> + '_ {
     line.chars().enumerate().find_part_numbers(line_index)
 }
 
-fn read_symbols(line: &str) -> impl Iterator<Item=Symbol> + '_ {
+fn read_symbols(line: &str) -> impl Iterator<Item = Symbol> + '_ {
     line.split('\n')
         .enumerate()
         .flat_map(|(line_index, line)| read_symbols_from_line(line_index, line))
 }
 
-fn read_symbols_from_line(line_index: usize, input: &str) -> impl Iterator<Item=Symbol> + '_ {
+fn read_symbols_from_line(line_index: usize, input: &str) -> impl Iterator<Item = Symbol> + '_ {
     input
         .chars()
         .enumerate()

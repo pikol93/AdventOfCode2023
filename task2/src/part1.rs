@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::common::{CubeColor, parse_read_input};
+use crate::common::{parse_read_input, CubeColor};
 
 pub fn part1(input_text: &str) {
     let sum = parse_read_input(input_text)

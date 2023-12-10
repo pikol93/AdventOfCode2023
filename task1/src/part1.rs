@@ -1,9 +1,9 @@
 trait FindFirstAndLast: DoubleEndedIterator {
     #[inline]
     fn find_first_and_last(&mut self) -> Option<(Self::Item, Self::Item)>
-        where
-            Self: Sized,
-            Self::Item: Copy,
+    where
+        Self: Sized,
+        Self::Item: Copy,
     {
         let Some(first) = self.next() else {
             return None;

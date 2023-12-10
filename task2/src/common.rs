@@ -29,11 +29,11 @@ pub struct Value {
     pub count: u32,
 }
 
-pub fn parse_read_input(input_text: &str) -> impl Iterator<Item=Value> + '_ {
+pub fn parse_read_input(input_text: &str) -> impl Iterator<Item = Value> + '_ {
     input_text.split('\n').filter_map(read_line).flatten()
 }
 
-fn read_line(line: &str) -> Option<impl Iterator<Item=Value> + '_> {
+fn read_line(line: &str) -> Option<impl Iterator<Item = Value> + '_> {
     let Some((game_id_str, game_str)) = line.split_once(':') else {
         return None;
     };
@@ -54,14 +54,14 @@ fn read_game_id(game_id_str: &str) -> Option<u32> {
     u32::from_str(right).ok()
 }
 
-fn read_game(game_id: u32, game_str: &str) -> impl Iterator<Item=Value> + '_ {
+fn read_game(game_id: u32, game_str: &str) -> impl Iterator<Item = Value> + '_ {
     game_str
         .split(';')
         .map(|round_str| round_str.trim_start())
         .flat_map(move |round_str| read_round(game_id, round_str))
 }
 
-fn read_round(game_id: u32, round_str: &str) -> impl Iterator<Item=Value> + '_ {
+fn read_round(game_id: u32, round_str: &str) -> impl Iterator<Item = Value> + '_ {
     round_str
         .split(',')
         .map(|value_str| value_str.trim_start())
