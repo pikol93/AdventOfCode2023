@@ -58,7 +58,7 @@ impl<I: Iterator<Item=(usize, char)>> Iterator for FindPartNumbers<I> {
 
             value = value * 10 + digit;
             end_char_index = current_index;
-        };
+        }
 
         Some(PartNumber {
             line: self.line_index,
@@ -74,7 +74,10 @@ trait FindPartNumbersTrait: Iterator<Item=(usize, char)>
         Self: Sized,
 {
     fn find_part_numbers(self, line_index: usize) -> FindPartNumbers<Self> {
-        FindPartNumbers { iterator: self, line_index }
+        FindPartNumbers {
+            iterator: self,
+            line_index,
+        }
     }
 }
 
@@ -88,7 +91,8 @@ pub fn read_input(input: &str) -> EngineSchematic {
 }
 
 fn read_part_numbers(input: &str) -> impl Iterator<Item=PartNumber> + '_ {
-    input.split('\n')
+    input
+        .split('\n')
         .enumerate()
         .flat_map(|(line_index, line)| read_part_numbers_from_line(line_index, line))
 }
@@ -97,9 +101,7 @@ fn read_part_numbers_from_line(
     line_index: usize,
     line: &str,
 ) -> impl Iterator<Item=PartNumber> + '_ {
-    line.chars()
-        .enumerate()
-        .find_part_numbers(line_index)
+    line.chars().enumerate().find_part_numbers(line_index)
 }
 
 fn read_symbols(line: &str) -> impl Iterator<Item=Symbol> + '_ {
@@ -109,14 +111,13 @@ fn read_symbols(line: &str) -> impl Iterator<Item=Symbol> + '_ {
 }
 
 fn read_symbols_from_line(line_index: usize, input: &str) -> impl Iterator<Item=Symbol> + '_ {
-    input.chars()
+    input
+        .chars()
         .enumerate()
         .filter(|(_, character)| *character != '.')
         .filter(|(_, character)| !character.is_ascii_digit())
-        .map(move |(char_index, _)| {
-            Symbol {
-                line: line_index,
-                char_index,
-            }
+        .map(move |(char_index, _)| Symbol {
+            line: line_index,
+            char_index,
         })
 }

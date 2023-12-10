@@ -1,7 +1,7 @@
 use crate::part1::part1;
 
-mod part1;
 mod common;
+mod part1;
 
 const INPUT_TEXT: &str = include_str!("../input.txt");
 
