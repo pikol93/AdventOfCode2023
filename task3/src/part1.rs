@@ -43,5 +43,5 @@ pub fn part1(input_text: &str) {
         .map(|part_number| part_number.value)
         .sum::<u32>();
 
-    println!("Sum: {}", sum);
+    println!("Part 1 sum: {}", sum);
 }

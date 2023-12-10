@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq, Hash)]
 pub struct PartNumber {
     pub line: usize,
     pub start_char_index: usize,
@@ -10,6 +10,7 @@ pub struct PartNumber {
 pub struct Symbol {
     pub line: usize,
     pub char_index: usize,
+    pub character: char,
 }
 
 #[derive(Debug)]
@@ -116,8 +117,9 @@ fn read_symbols_from_line(line_index: usize, input: &str) -> impl Iterator<Item=
         .enumerate()
         .filter(|(_, character)| *character != '.')
         .filter(|(_, character)| !character.is_ascii_digit())
-        .map(move |(char_index, _)| Symbol {
+        .map(move |(char_index, character)| Symbol {
             line: line_index,
             char_index,
+            character,
         })
 }
